@@ -20,7 +20,7 @@ string answer(string& command, vector<string>& board){
 		//cout << "Ca for ia = " << i << " is " << Ca << endl;
 		i1++;
 	}
-	if (board[ia][i1] == 'x'){
+	if (board[ia][i1] == 'x' || board[ia][i1] == 'X'){
 		return "Попал!";
 	}
 	return "Промах!";
@@ -63,6 +63,8 @@ bool IfFileExists (const string& name)
 }
 
 int main(){
+	//русские буквы в консоли
+	setlocale(LC_ALL, "Russian");
 	// Номер файла
 	int file_number;
 
