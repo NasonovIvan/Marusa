@@ -7,157 +7,319 @@
 
 using namespace std;
 
-string check_board_2(const vector<string>& board){
-	//функция, проверяющая доску 2 на 2
-	char c;
-	if (board[0][0] == board[0][1] && board[0][0] != '.'){
-		c = board[0][0];
-		if (c == 'x') return "x";
-		return "O";
-	}
-	if (board[1][0] == board[1][1] && board[1][0] != '.'){
-		c = board[1][0];
-		if (c == 'x') return "x";
-		return "O";
-	}
-	if (board[0][0] == board[1][0] && board[0][0] != '.'){
-		c = board[0][0];
-		if (c == 'x') return "x";
-		return "O";
-	}
-	if (board[0][1] == board[1][1] && board[0][1] != '.'){
-		c = board[0][1];
-		if (c == 'x') return "x";
-		return "O";
-	}
-	if (board[0][0] == board[1][1] && board[0][0] != '.'){
-		c = board[0][0];
-		if (c == 'x') return "x";
-		return "O";
-	}
-	if (board[0][1] == board[1][0] && board[0][1] != '.'){
-		c = board[0][1];
-		if (c == 'x') return "x";
-		return "O";
-	}
-	return "xO";
-}
+class Krestik{
+public:
 
-string check_goriz(const vector<string>& board){
-	//проверка по горизонталям
-	int n = board.size();
-	//цикл по строкам во всем большом квадрате
-	for(int i = 0; i < n; i++){
-		//цикл по 3 элементам в строке (горизонталь)
-		//выясняем, равны ли 3 элемента подряд в строке
-		//(n - 2) потому что идем квадратом по 3
-		for(int j = 0; j < (n - 2); j++){
-			if(board[i][j] == board[i][j + 1] &&
-			board[i][j + 1] == board[i][j + 2] && board[i][j] != '.' &&
-			board[i][j + 1] != '.' && board[i][j + 2] != '.'){
-			char winner = board[i][j];
-			if (winner == 'x') return "x";
-			return "O";
+	int N; //размер поля
+	char** board; //двумерный массив char, в котором будет поле
+
+	Krestik(int N_input){
+		//конструктор
+		N = N_input;
+		board = new char*[N];
+		for(int i = 0; i < N; i++){
+			board[i] = new char[N];
+		}
+	}
+
+	void Read(){
+		//метод ввода поля с консоли
+		for(int i = 0; i < N; i++){
+			for(int j = 0; j < N; j++){
+				cin >> board[i][j];
 			}
 		}
 	}
-	return "xO";
-}
 
-string check_vert(const vector<string>& board){
-	//проверка по вертикалям
-	int n = board.size();
-	//цикл по элементам во всем большом квадрате
-	for(int j = 0; j < n; j++){
-		//цикл по строкам в вертикали
-		//выясняем, равны ли 3 элемента подряд в столбце
-		//(n - 2) потому что идем квадратом по 3
-		for(int i = 0; i < (n - 2); i++){
-			if(board[i][j] == board[i + 1][j] &&
-			board[i + 1][j] == board[i + 2][j] && board[i][j] != '.' &&
-			board[i + 1][j] != '.' && board[i + 2][j] != '.'){
-			char winner = board[i][j];
-			if (winner == 'x') return "x";
+	string check_board_2(){
+		//функция, проверяющая доску 2 на 2
+		char c;
+		if (board[0][0] == board[0][1] && board[0][0] != '.'){
+			c = board[0][0];
+			if (c == 'x') return "x";
 			return "O";
+		}
+		if (board[1][0] == board[1][1] && board[1][0] != '.'){
+			c = board[1][0];
+			if (c == 'x') return "x";
+			return "O";
+		}
+		if (board[0][0] == board[1][0] && board[0][0] != '.'){
+			c = board[0][0];
+			if (c == 'x') return "x";
+			return "O";
+		}
+		if (board[0][1] == board[1][1] && board[0][1] != '.'){
+			c = board[0][1];
+			if (c == 'x') return "x";
+			return "O";
+		}
+		if (board[0][0] == board[1][1] && board[0][0] != '.'){
+			c = board[0][0];
+			if (c == 'x') return "x";
+			return "O";
+		}
+		if (board[0][1] == board[1][0] && board[0][1] != '.'){
+			c = board[0][1];
+			if (c == 'x') return "x";
+			return "O";
+		}
+		return "xO";
+	}
+
+
+
+	string check_func(){
+	  //определяет победителя
+		string s;
+		if(check_goriz() != "xO"){
+			s = check_goriz();
+			return s;
+		}
+		if(check_vert() != "xO"){
+			s = check_vert();
+			return s;
+		}
+		if(check_diag_1() != "xO"){
+			s = check_diag_1();
+			return s;
+		}
+		if(check_diag_2() != "xO"){
+			s = check_diag_2();
+			return s;
+			}
+		return "xO";
+	}
+
+	string check_func_n(){
+	  //определяет победителя
+		string s;
+		if(check_goriz_n() != "xO"){
+			s = check_goriz_n();
+			return s;
+		}
+		if(check_vert_n() != "xO"){
+			s = check_vert_n();
+			return s;
+		}
+		if(check_diag_1_n() != "xO"){
+			s = check_diag_1_n();
+			return s;
+		}
+		if(check_diag_2_n() != "xO"){
+			s = check_diag_2_n();
+			return s;
+			}
+		return "xO";
+	}
+
+private:
+	string check_goriz(){
+		//проверка по горизонталям
+
+		//цикл по строкам во всем большом квадрате
+		for(int i = 0; i < N; i++){
+			//цикл по 3 элементам в строке (горизонталь)
+			//выясняем, равны ли 3 элемента подряд в строке
+			//(n - 2) потому что идем квадратом по 3
+			for(int j = 0; j < (N - 2); j++){
+				if(board[i][j] == board[i][j + 1] &&
+				board[i][j + 1] == board[i][j + 2] && board[i][j] != '.' &&
+				board[i][j + 1] != '.' && board[i][j + 2] != '.'){
+				char winner = board[i][j];
+				if (winner == 'x') return "x";
+				return "O";
+				}
 			}
 		}
+		return "xO";
 	}
-	return "xO";
-}
 
-string check_diag_1(const vector<string>& board){
-	//проверка 1 диагонали по всем подквадратам 3 на 3
-	int n = board.size();
-	//цикл по строкам во всем большом квадрате
-	for(int i = 0; i < (n - 2); i++){
-		//цикл по 3 элементам в диагонале
-		//выясняем, равны ли 3 элемента подряд в диагонале
-		//(n - 2) потому что идем квадратом по 3
-		for(int j = 0; j < (n - 2); j++){
-			if(board[i][j] == board[i + 1][j + 1] &&
-			board[i + 1][j + 1] == board[i + 2][j + 2] && board[i][j] != '.' &&
-			board[i + 1][j + 1] != '.' && board[i + 2][j + 2] != '.'){
-			char winner = board[i][j];
-			if (winner == 'x') return "x";
-			return "O";
+	string check_vert(){
+		//проверка по вертикалям
+
+		//цикл по элементам во всем большом квадрате
+		for(int j = 0; j < N; j++){
+			//цикл по строкам в вертикали
+			//выясняем, равны ли 3 элемента подряд в столбце
+			//(n - 2) потому что идем квадратом по 3
+			for(int i = 0; i < (N - 2); i++){
+				if(board[i][j] == board[i + 1][j] &&
+				board[i + 1][j] == board[i + 2][j] && board[i][j] != '.' &&
+				board[i + 1][j] != '.' && board[i + 2][j] != '.'){
+				char winner = board[i][j];
+				if (winner == 'x') return "x";
+				return "O";
+				}
 			}
 		}
+		return "xO";
 	}
-	return "xO";
-}
 
-string check_diag_2(const vector<string>& board){
-	//проверка 2 диагонали по всем подквадратам 3 на 3
-	int n = board.size();
-	//цикл по строкам во всем большом квадрате
-	for(int i = 0; i < (n - 2); i++){
-		//цикл по 3 элементам в диагонале
-		//выясняем, равны ли 3 элемента подряд в диагонале
-		//(n - 2) потому что идем квадратом по 3
-		for(int j = 0; j < (n - 2); j++){
-			if(board[i][j + 2] == board[i + 1][j + 1] &&
-			board[i + 1][j + 1] == board[i + 2][j] && board[i][j + 2] != '.' &&
-			board[i + 1][j + 1] != '.' && board[i + 2][j] != '.'){
-			char winner = board[i][j + 2];
-			if (winner == 'x') return "x";
-			return "O";
+	string check_diag_1(){
+		//проверка 1 диагонали по всем подквадратам 3 на 3
+
+		//цикл по строкам во всем большом квадрате
+		for(int i = 0; i < (N - 2); i++){
+			//цикл по 3 элементам в диагонале
+			//выясняем, равны ли 3 элемента подряд в диагонале
+			//(n - 2) потому что идем квадратом по 3
+			for(int j = 0; j < (N - 2); j++){
+				if(board[i][j] == board[i + 1][j + 1] &&
+				board[i + 1][j + 1] == board[i + 2][j + 2] && board[i][j] != '.' &&
+				board[i + 1][j + 1] != '.' && board[i + 2][j + 2] != '.'){
+				char winner = board[i][j];
+				if (winner == 'x') return "x";
+				return "O";
+				}
 			}
 		}
+		return "xO";
 	}
-	return "xO";
-}
 
-string check_func(const vector<string>& board){
-  //определяет победителя
-	string s;
-	if(check_goriz(board) != "xO"){
-		s = check_goriz(board);
-		return s;
-	}
-	if(check_vert(board) != "xO"){
-		s = check_vert(board);
-		return s;
-	}
-	if(check_diag_1(board) != "xO"){
-		s = check_diag_1(board);
-		return s;
-	}
-	if(check_diag_2(board) != "xO"){
-		s = check_diag_2(board);
-		return s;
+	string check_diag_2(){
+		//проверка 2 диагонали по всем подквадратам 3 на 3
+
+		//цикл по строкам во всем большом квадрате
+		for(int i = 0; i < (N - 2); i++){
+			//цикл по 3 элементам в диагонале
+			//выясняем, равны ли 3 элемента подряд в диагонале
+			//(n - 2) потому что идем квадратом по 3
+			for(int j = 0; j < (N - 2); j++){
+				if(board[i][j + 2] == board[i + 1][j + 1] &&
+				board[i + 1][j + 1] == board[i + 2][j] && board[i][j + 2] != '.' &&
+				board[i + 1][j + 1] != '.' && board[i + 2][j] != '.'){
+				char winner = board[i][j + 2];
+				if (winner == 'x') return "x";
+				return "O";
+				}
+			}
 		}
-	return "xO";
-}
-
-/*void PrintVec(vector<string>& v){
-	//печатает доску
-	int n = v.size();
-	//cout << "n = " << n << endl;
-	//cout << "s = " << s << endl;
-	for (int i = 0; i < n; i++){
-		cout << v[i] << "\n";
+		return "xO";
 	}
-}*/
+
+	string check_vert_n(){
+		//проверка полных вертикалей в квадратах больше, чем 3 на 3
+
+		//переменная в которую запишем символ победителя
+		char c;
+		//вектор символов победителей
+		vector<char> winner;
+
+		for(int j = 0; j < N; j++){
+		//цикл по i проходим до N - 1 потому что по сути уже заглядываем всегда вперед на 1 символ
+			for(int i = 0; i < (N - 1); i++){
+				if(board[i][j] == board[i + 1][j] && board[i][j] != '.'){
+					c = board[i][j];
+				}
+				else{
+					//'u'просто рандомный символ. Он означает, что в диагонале нет непрерывной последовательности
+					//одинаковых символов
+					c = 'u';
+					break;
+				}
+			}
+			if(c != 'u') winner.push_back(c);
+		}
+		if(winner.size() == 1){
+			if(winner[0] == 'x') return "x";
+			else return "O";
+		}
+		return "xO";
+	}
+
+	string check_goriz_n(){
+		//проверка полных горизонталей в квадратах больше, чем 3 на 3
+
+		//переменная в которую запишем символ победителя
+		char c;
+		//вектор символов победителей
+		vector<char> winner;
+
+		for(int i = 0; i < N; i++){
+		//цикл по j проходим до N - 1 потому что по сути уже заглядываем всегда вперед на 1 символ
+			for(int j = 0; j < (N - 1); j++){
+				if(board[i][j] == board[i][j + 1] && board[i][j] != '.'){
+					c = board[i][j];
+				}
+				else{
+					//'u'просто рандомный символ. Он означает, что в диагонале нет непрерывной последовательности
+					//одинаковых символов
+					c = 'u';
+					break;
+				}
+			}
+			if(c != 'u') winner.push_back(c);
+		}
+		if(winner.size() == 1){
+			if(winner[0] == 'x') return "x";
+			else return "O";
+		}
+		return "xO";
+	}
+
+
+
+	string check_diag_1_n(){
+		//функция проверяющая главную диагональ на одинаковые символы (во всей диагонали)
+
+		//переменная в которую запишем символ победителя
+		char c;
+		//счетчики
+		int i = 0;
+		int j = 0;
+
+		//проходим до N - 1 потому что по диагонали заглядываем всегда вперед на 1 элемент
+		while(i < (N - 1) && j < (N - 1)){
+			if(board[i][j] == board[i + 1][j + 1] && board[i][j] != '.'){
+				c = board[i][j];
+			}
+			else{
+				//'u'просто рандомный символ. Он означает, что в диагонале нет непрерывной последовательности
+				//одинаковых символов
+				c = 'u';
+				break;
+			}
+			i++;
+			j++;
+		}
+		if(c != 'u'){
+			if(c == 'x') return "x";
+			else return "O";
+		}
+		return "xO";
+	}
+
+	string check_diag_2_n(){
+		//функция проверяющая побочную диагональ на одинаковые символы (во всей диагонали)
+
+		//переменная в которую запишем символ победителя
+		char c;
+		//счетчики
+		int i = 0;
+		int j = N - 1;
+
+		//проходим до N - 1 потому что по диагонали заглядываем всегда вперед на 1 элемент
+		//j > 0 потому что начинаем с правого верхнего края таблички
+		while(i < (N - 1) && j > 1){
+			if(board[i][j] == board[i + 1][j - 1] && board[i][j] != '.'){
+				c = board[i][j];
+			}
+			else{
+				c = 'u';
+				break;
+			}
+			i++;
+			j--;
+		}
+		if(c != 'u'){
+			if(c == 'x') return "x";
+			else return "O";
+		}
+		return "xO";
+	}
+
+};
 
 /* Функция проверки, существует ли файл */
 bool IfFileExists (const string& name)
@@ -166,21 +328,9 @@ bool IfFileExists (const string& name)
     return f.good();
 }
 
-vector<string> read_board(int n){
-	//считывает доску с консоли
-	vector<string> board;
-	string s;
-	for (int i = 0; i < n; i++){
-		cin >> s;
-		board.push_back(s);
-	}
-	return board;
-}
-
 int main(){
 	int N;
 	char c;
-
 	// Номер файла
 	int file_number;
 
@@ -198,6 +348,12 @@ int main(){
 	ofstream fout("file" + to_string(file_number) + ".txt");
 
 	cin >> N;
+
+	if (N == 0){
+		cout << "xO";
+		fout << "xO" << endl;
+		fout.close();
+	}
 	if (N == 1){
 		cin >> c;
 		cout << c;
@@ -205,19 +361,27 @@ int main(){
 		fout.close();
 	}
 	if (N == 2){
-		vector<string> board;
-		board = read_board(N);
-		string s2 = check_board_2(board);
-		cout << s2 << endl;
-		fout << s2 << endl;
+		Krestik Board(N);
+		Board.Read();
+		string s = Board.check_board_2();
+		cout << s << endl;
+		fout << s << endl;
 		fout.close();
 	}
 	if (N >= 3 && N <= 30){
-		vector<string> board;
-		board = read_board(N);
-		string s3 = check_func(board);
-		cout << s3 << endl;
-		fout << s3 << endl;
+		Krestik Board(N);
+		Board.Read();
+		string s = Board.check_func();
+
+		//Если условие выигрыша на полях >= 3 подразумевает собой построение последовательности
+		//одинаковых символов на ПОЛНОЙ вертикале/горизонтале/диагонали, то использовать нужно
+		//нижнюю строчку, а строчку string s = Board.check_func(); закомментить, поскольку она
+		//работает при условии, что выигрыш происходит при построении последовательности >= 3 одинаковых
+		//символов подряд. Более подробно об этом читай в файле README.md в репозитории
+
+		//string s = Board.check_func_n();
+		cout << s << endl;
+		fout << s << endl;
 		fout.close();
 	}
 	return 0;
