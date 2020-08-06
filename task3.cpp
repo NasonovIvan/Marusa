@@ -445,5 +445,6 @@ int main()
     for(auto i : answers){
     	fout << i << endl;
     }
+    fout.close();
     return 0;
 }
