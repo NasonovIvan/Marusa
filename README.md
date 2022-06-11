@@ -57,7 +57,7 @@ Instructions — the following words:
 - Down!
 - To the left!
 
-> To complete a maze (any maze with a given finish on the edge of the map, as in the condition) I have implemented the [wave algorithm](https://ru.wikipedia.org/wiki/Алгоритм_Ли ) (Lee's algorithm, as it is also sometimes called). Neighboring cells were classified by von [Neumann](https://ru.wikipedia.org/wiki/Neighborhood of Phone_neiman) neighborhood.
+> To complete a maze (any maze with a given finish on the edge of the map, as in the condition) I have implemented the [wave algorithm](https://stackoverflow.com/questions/44633690/wave-algorithm-based-in-lees-algorithm-in-c) (Lee's algorithm, as it is also sometimes called). Neighboring cells were classified by von [Neumann](https://en.wikipedia.org/wiki/Von_Neumann_neighborhood) neighborhood.
 > The solution assumes that there is definitely a way out of the maze. The program is able to bypass loops in the maze, dead ends, and intersections. It finds the shortest path from start to finish and outputs a set of commands to the cout stream, and also writes them to a file. I made the maze input from a file (it's much more convenient with this task). On the first line there should be an N - number indicating the size of the maze. The maze map should start from the next line.
 
 ## Russian
